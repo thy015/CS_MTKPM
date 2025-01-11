@@ -1,0 +1,6 @@
+﻿services:
+  oop_mtkpm:
+    image: oop_mtkpm
+    build:
+      context: .
+      dockerfile: OOP_MTKPM/Dockerfile
