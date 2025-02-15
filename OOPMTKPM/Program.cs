@@ -31,5 +31,14 @@ class Program
             IProduct product = ButterFactory.GetProduct(month);
             product.ShipFrom();
         }
+        
+        ISinhVien svThuong = new SinhVienThuong("An", 20, "Hà Nội");
+        Console.WriteLine(svThuong.DiHoc());
+
+        ISinhVien svChuyenToan = new SinhVienChuyenToan(svThuong, 9.5);
+        Console.WriteLine(svChuyenToan.DiHoc());
+
+        ISinhVien svChuyenTin = new SinhVienChuyenTin(svThuong, 8.7);
+        Console.WriteLine(svChuyenTin.DiHoc());
     }
 }
