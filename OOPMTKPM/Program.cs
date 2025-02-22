@@ -1,44 +1,72 @@
-﻿
-class Program
+using Adapter;
+using FacadePattern;
+using Flyweight;
+
+
+namespace OOPMTKPM;
+
+public class Program
 {
     static void Main(string[] args)
     {
-        RobotDirector director = new RobotDirector();
-
-        // Tạo HelpingRobot
-        IRobotBuilder helpingRobotBuilder = new HelpingRobotBuilder();
-        director.Construct(helpingRobotBuilder);
-        HelpingRobot helpingRobot = (HelpingRobot)helpingRobotBuilder.GetRobot();
-        helpingRobot.ID = "H-001";
-        helpingRobot.Name = "Helper-X";
-        helpingRobot.DisplayInfo();
-        Console.WriteLine(helpingRobot.HelpPeople());
-        
-        Console.WriteLine("\n-----------------------------\n");
-
-        // Tạo WarRobot
-        IRobotBuilder warRobotBuilder = new WarRobotBuilder();
-        director.Construct(warRobotBuilder);
-        WarRobot warRobot = (WarRobot)warRobotBuilder.GetRobot();
-        warRobot.ID = "W-101";
-        warRobot.Name = "Warrior-Z";
-        warRobot.DisplayInfo();
-        Console.WriteLine(warRobot.Fighting());
-        
-        for (int month = 1; month <= 12; month++)
+        if (args.Length == 0)
         {
-            Console.Write($"Month {month}: ");
-            IProduct product = ButterFactory.GetProduct(month);
-            product.ShipFrom();
+            Console.WriteLine("Please enter the argument");
+            return;
         }
-        
-        ISinhVien svThuong = new SinhVienThuong("An", 20, "Hà Nội");
-        Console.WriteLine(svThuong.DiHoc());
 
-        ISinhVien svChuyenToan = new SinhVienChuyenToan(svThuong, 9.5);
-        Console.WriteLine(svChuyenToan.DiHoc());
+        switch (args[0])
+        {
+            case "5.1":
+                Android android = new Android();
+                Iphone iPhone = new Iphone();
 
-        ISinhVien svChuyenTin = new SinhVienChuyenTin(svThuong, 8.7);
-        Console.WriteLine(svChuyenTin.DiHoc());
+                Console.WriteLine("Recharging Android with MicroUSB");
+                rechargeMicroUsbPhone(android);
+
+                Console.WriteLine("\nRecharging iPhone with Lightning");
+                rechargeLightningPhone(iPhone);
+
+                Console.WriteLine("\nRecharging iPhone with MicroUSB (using Adapter)");
+                rechargeMicroUsbPhone(new LightningToMicroUsbAdapter(iPhone));
+
+
+                static void rechargeMicroUsbPhone(MicroUsbPhone phone)
+                {
+                    phone.useMicroUsb();
+                    phone.recharge();
+                }
+
+                static void rechargeLightningPhone(LightningPhone phone)
+                {
+                    phone.useLightning();
+                    phone.recharge();
+                }
+
+                break;
+            case "5.2":
+                Facade facade = new Facade();
+                facade.Operation1();
+                facade.Operation2();
+                break;
+            // case "5.3":
+            //     Animal lion1 = AnimalFactory.GetAnimalFromFactory("Carnivore", "Lion");
+            //     lion1.Age = 5;
+            //     lion1.Eat();
+            //
+            //     Animal lion2 = AnimalFactory.GetAnimalFromFactory("Carnivore", "Lion");
+            //     lion2.Age = 7;
+            //     lion2.Eat();
+            //
+            //     Animal deer = AnimalFactory.GetAnimalFromFactory("Herbivore", "Deer");
+            //     deer.Age = 3;
+            //     deer.Eat();
+            //
+            //     Console.WriteLine($"\nSame lion object? {ReferenceEquals(lion1, lion2)}");
+            //     break;
+            default:
+                Console.WriteLine("Invalid argument");
+                break;
+        }
     }
 }
