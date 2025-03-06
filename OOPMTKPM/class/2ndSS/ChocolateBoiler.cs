@@ -2,53 +2,58 @@ namespace OOPMTKPM.Class._2ndSS;
 
 public class ChocolateBoiler
 {
-    private static ChocolateBoiler instance;
-    private bool empty;
-    private bool boiled;
-    
-    private ChocolateBoiler()
+  private static ChocolateBoiler instance;
+  private bool empty;
+  private bool boiled;
+
+  private ChocolateBoiler()
+  {
+    empty = true;
+    boiled = false;
+  }
+
+  public bool isEmpty()
+  {
+    return empty;
+  }
+
+  public bool isBoiled()
+  {
+    return boiled;
+  }
+
+  public void fill()
+  {
+    if (isEmpty())
     {
-        empty = true;
-        boiled = false;
+      empty = false;
+      boiled = false;
     }
-    public bool isEmpty()
+  }
+
+  public void drain()
+  {
+    if (!isEmpty() && isBoiled())
     {
-        return empty;
+      empty = true;
     }
-    public bool isBoiled()
+  }
+
+  public void boil()
+  {
+    if (!isEmpty() && !isBoiled())
     {
-        return boiled;
+      boiled = true;
     }
-    
-    public void fill()
+  }
+
+  public static ChocolateBoiler GetInstance()
+  {
+    if (instance == null)
     {
-        if (isEmpty())
-        {
-            empty = false;
-            boiled = false;
-        }
-    }
-    public void drain()
-    {
-        if (!isEmpty() && isBoiled())
-        {
-            empty = true;
-        }
-    }
-    public void boil()
-    {
-        if (!isEmpty() && !isBoiled())
-        {
-            boiled = true;
-        }
+      instance = new ChocolateBoiler();
     }
 
-    public static ChocolateBoiler GetInstance()
-    {
-        if (instance == null)
-        {
-            instance = new ChocolateBoiler();
-        }
-        return instance;
-    }
+    return instance;
+  }
 }
